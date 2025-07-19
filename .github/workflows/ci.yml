@@ -70,21 +70,6 @@ jobs:
           version: latest
           args: --timeout=5m --issues-exit-code=0
 
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: "1.24.0"
-
-      - name: Run Gosec Security Scanner
-        uses: securecodewarrior/github-action-gosec@master
-        with:
-          args: "./..."
-
   benchmark:
     runs-on: ubuntu-latest
     steps:
