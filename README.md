@@ -1,5 +1,7 @@
 # Smart-ID Go Client
 
+[![Project Status](https://img.shields.io/badge/status-in%20development-orange.svg)](https://github.com/PaymentSyst/smart-id-client)
+
 This library provides a modern, developer-friendly Go integration with the official **Smart-ID REST API v3** from **SK ID Solutions**, supporting strong, secure electronic identity authentication and digital signing for users in **Estonia**, **Latvia**, and **Lithuania**.
 
 It is built entirely in **Go**, leverages well-established cryptographic libraries, and offers a clean, modular design following Go best practices, giving developers full control over request construction, security validation, and interaction flows.
