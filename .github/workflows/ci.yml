@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
@@ -14,101 +14,104 @@ jobs:
         go-version: [1.19, 1.20, 1.21]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ matrix.go-version }}
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
 
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/go-build
-          ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-${{ matrix.go-version }}-
-          ${{ runner.os }}-go-
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-${{ matrix.go-version }}-
+            ${{ runner.os }}-go-
 
-    - name: Download dependencies
-      run: go mod download
+      - name: Download dependencies
+        run: go mod download
 
-    - name: Verify dependencies
-      run: go mod verify
+      - name: Verify dependencies
+        run: go mod verify
 
-    - name: Build
-      run: go build ./...
+      - name: Build
+        run: go build ./...
 
-    - name: Run tests
-      run: go test -v -race -coverprofile=coverage.out ./...
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.out ./...
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.out
-        flags: unittests
-        name: codecov-umbrella
+      - name: Run integration tests
+        run: go test -v -tags=integration ./...
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.out
+          flags: unittests
+          name: codecov-umbrella
 
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
 
-    - name: golangci-lint
-      uses: golangci/golangci-lint-action@v3
-      with:
-        version: latest
-        args: --timeout=5m
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          args: --timeout=5m
 
   security:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
 
-    - name: Run Gosec Security Scanner
-      uses: securecodewarrior/github-action-gosec@master
-      with:
-        args: './...'
+      - name: Run Gosec Security Scanner
+        uses: securecodewarrior/github-action-gosec@master
+        with:
+          args: "./..."
 
   benchmark:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
 
-    - name: Run benchmarks
-      run: go test -bench=. -benchmem ./...
+      - name: Run benchmarks
+        run: go test -bench=. -benchmem -short ./...
 
   example:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
 
-    - name: Build example
-      run: |
-        cd example
-        go build -o smart-id-example .
+      - name: Build example
+        run: |
+          cd example
+          go build -o smart-id-example .
 
   compatibility:
     runs-on: ${{ matrix.os }}
@@ -118,14 +121,15 @@ jobs:
         go-version: [1.21]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ matrix.go-version }}
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
 
-    - name: Test cross-platform compatibility
-      run: |
-        go mod download
-        go test -short ./...
+      - name: Test cross-platform compatibility
+        run: |
+          go mod download
+          go test -short ./...
+          go test -tags=integration -short ./...
