@@ -1,9 +1,5 @@
 # Smart-ID Go Client
 
-<div align="center">
-  <img src="https://joosep.org/projects/smart-id-node-client/smart-id-node-client-banner.png" width="800" alt="Smart-ID Go Client Banner">
-</div>
-
 This library provides a modern, developer-friendly Go integration with the official **Smart-ID REST API v3** from **SK ID Solutions**, supporting strong, secure electronic identity authentication and digital signing for users in **Estonia**, **Latvia**, and **Lithuania**.
 
 It is built entirely in **Go**, leverages well-established cryptographic libraries, and offers a clean, modular design following Go best practices, giving developers full control over request construction, security validation, and interaction flows.

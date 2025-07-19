@@ -251,7 +251,7 @@ make clean             # Clean artifacts
 
 - **Operating Systems**: Linux, Windows, macOS
 - **Architectures**: x86_64, ARM64
-- **Go Versions**: 1.19, 1.20, 1.21+
+- **Go Versions**: 1.24
 - **Smart-ID API**: v3 (June 2025)
 
 ## 🔗 Integration Points

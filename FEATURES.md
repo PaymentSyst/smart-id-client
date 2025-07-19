@@ -211,7 +211,7 @@ type SmartIdSessionFailedError struct {
 - **Coverage Reporting** - Codecov integration
 
 ### ✅ CI/CD Pipeline
-- **Multi-Go Version Testing** - Go 1.19, 1.20, 1.21
+- **Multi-Go Version Testing** - Go 1.24
 - **Cross-Platform Testing** - Linux, Windows, macOS
 - **Automated Security Scanning** - gosec integration
 - **Benchmark Regression Testing** - Performance monitoring
@@ -276,9 +276,9 @@ BenchmarkCallbackParamGeneration-8        	 5010238	      240.2 ns/op	      64 B
 ## 📋 Version Compatibility
 
 ### ✅ Go Version Support
-- **Minimum** - Go 1.19+
-- **Recommended** - Go 1.21+
-- **Tested** - Go 1.19, 1.20, 1.21
+- **Minimum** - Go 1.24+
+- **Recommended** - Go 1.24+
+- **Tested** - Go 1.24
 
 ### ✅ Platform Support
 - **Linux** - Full support (primary platform)
