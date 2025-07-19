@@ -15,6 +15,8 @@
 //
 // Example usage:
 //
+//	import "github.com/PaymentSyst/smart-id-client"
+//
 //	client := smartid.NewSmartIdAuthClient(&smartid.SmartIdClientConfig{
 //		RelyingPartyUUID: "00000000-0000-4000-8000-000000000000",
 //		RelyingPartyName: "DEMO",

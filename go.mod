@@ -1,3 +1,3 @@
-module github.com/smartid-client/go-client
+module github.com/PaymentSyst/smart-id-client
 
 go 1.21

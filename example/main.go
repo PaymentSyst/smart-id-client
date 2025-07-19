@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	smartid "github.com/smartid-client/go-client"
+	smartid "github.com/PaymentSyst/smart-id-client"
 )
 
 func main() {

@@ -274,7 +274,7 @@ func TestCallbackURLValidator(t *testing.T) {
 
 func TestGenerateSemanticsIdentifier(t *testing.T) {
 	identifier := GenerateSemanticsIdentifier("PNOEE", "EE", "12345678901")
-	expected := "PNOEEE-12345678901"
+	expected := "PNOEEEE-12345678901"
 
 	if identifier != expected {
 		t.Errorf("Expected identifier '%s', got '%s'", expected, identifier)

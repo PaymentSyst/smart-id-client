@@ -67,7 +67,7 @@ The RP frontend resides on the same mobile device as the Smart-ID app.
 ## Installation
 
 ```bash
-go get github.com/smartid-client/go-client
+go get github.com/PaymentSyst/smart-id-client
 ```
 
 ### Before You Start
@@ -89,7 +89,7 @@ import (
     "fmt"
     "log"
     
-    smartid "github.com/smartid-client/go-client"
+    smartid "github.com/PaymentSyst/smart-id-client"
 )
 
 func main() {
@@ -568,8 +568,8 @@ We welcome contributions! Please:
 ### Development Setup
 
 ```bash
-git clone https://github.com/smartid-client/go-client.git
-cd go-client
+git clone https://github.com/PaymentSyst/smart-id-client.git
+cd smart-id-client
 go mod tidy
 go test ./...
 ```
