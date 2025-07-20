@@ -8,10 +8,10 @@ import (
 
 // AuthenticationRequestBuilder provides a developer-friendly way to construct Smart-ID authentication requests
 type AuthenticationRequestBuilder struct {
-	relyingPartyUUID   string
-	relyingPartyName   string
-	payload            *DeviceLinkAuthRequest
-	currentInteraction Interaction
+	relyingPartyUUID    string
+	relyingPartyName    string
+	payload             *DeviceLinkAuthRequest
+	currentInteractions []Interaction
 }
 
 // NewAuthenticationRequestBuilder creates a new AuthenticationRequestBuilder instance
@@ -35,14 +35,14 @@ func NewAuthenticationRequestBuilder(relyingPartyUUID, relyingPartyName string) 
 				HashAlgorithm: HashAlgorithmSHA512,
 			},
 		},
-		Interactions: encodeInteraction(defaultInteraction),
+		Interactions: encodeInteractions([]Interaction{defaultInteraction}),
 	}
 
 	return &AuthenticationRequestBuilder{
-		relyingPartyUUID:   relyingPartyUUID,
-		relyingPartyName:   relyingPartyName,
-		payload:            payload,
-		currentInteraction: defaultInteraction,
+		relyingPartyUUID:    relyingPartyUUID,
+		relyingPartyName:    relyingPartyName,
+		payload:             payload,
+		currentInteractions: []Interaction{defaultInteraction},
 	}
 }
 
@@ -77,9 +77,9 @@ func (b *AuthenticationRequestBuilder) WithCapabilities(capabilities map[string]
 }
 
 // WithInteractions defines the user-facing interaction shown on the Smart-ID app
-func (b *AuthenticationRequestBuilder) WithInteractions(interaction Interaction) *AuthenticationRequestBuilder {
-	b.currentInteraction = interaction
-	b.payload.Interactions = encodeInteraction(interaction)
+func (b *AuthenticationRequestBuilder) WithInteractions(interactions ...Interaction) *AuthenticationRequestBuilder {
+	b.currentInteractions = interactions
+	b.payload.Interactions = encodeInteractions(interactions)
 	return b
 }
 
@@ -115,9 +115,8 @@ func (b *NotificationRequestBuilder) Build() *NotificationAuthRequest {
 	return b.payload
 }
 
-// encodeInteraction encodes an interaction to base64 JSON
-func encodeInteraction(interaction Interaction) string {
-	interactions := []Interaction{interaction}
+// encodeInteractions encodes an interaction to base64 JSON
+func encodeInteractions(interactions []Interaction) string {
 	jsonBytes, err := json.Marshal(interactions)
 	if err != nil {
 		return ""

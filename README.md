@@ -181,7 +181,7 @@ notificationRequest := builder.
 | `WithHashAlgorithm(algorithm)` | Sets hash algorithm for signatures |
 | `WithRequestProperties(props)` | Adds request properties like IP sharing |
 | `WithCapabilities(caps)` | Adds custom capabilities |
-| `WithInteractions(interaction)` | Sets user interaction type |
+| `WithInteractions(interactions...)` | Sets user interaction type(s) |
 | `WithVCType(vcType)` | Switches to notification authentication |
 
 ## Smart-ID Authentication Client
