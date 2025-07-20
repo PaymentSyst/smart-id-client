@@ -146,10 +146,17 @@ func (c *SmartIdAuthClient) StartAuthenticateNotificationByDocument(documentNumb
 }
 
 // GetSessionStatus retrieves the current status of an authentication session
-func (c *SmartIdAuthClient) GetSessionStatus(sessionID string) (*AuthenticationResponse, error) {
+func (c *SmartIdAuthClient) GetSessionStatus(sessionID string, timeoutMs ...int) (*AuthenticationResponse, error) {
 	path := fmt.Sprintf("/session/%s", url.PathEscape(sessionID))
+	requestURL := c.baseURL + path
 
-	resp, err := c.httpClient.Get(c.baseURL + path)
+	if len(timeoutMs) > 0 && timeoutMs[0] > 0 {
+		query := url.Values{}
+		query.Add("timeoutMs", strconv.Itoa(timeoutMs[0]))
+		requestURL += "?" + query.Encode()
+	}
+
+	resp, err := c.httpClient.Get(requestURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get session status: %w", err)
 	}
@@ -194,10 +201,9 @@ func (c *SmartIdAuthClient) PollForSessionResult(sessionID string, options *Poll
 
 	startTime := time.Now()
 	maxDuration := time.Duration(options.MaxWaitMs) * time.Millisecond
-	pollInterval := time.Duration(options.PollIntervalMs) * time.Millisecond
 
 	for attempt := 0; attempt < options.MaxAttempts && time.Since(startTime) < maxDuration; attempt++ {
-		status, err := c.GetSessionStatus(sessionID)
+		status, err := c.GetSessionStatus(sessionID, options.PollIntervalMs)
 		if err != nil {
 			return nil, err
 		}
@@ -235,8 +241,6 @@ func (c *SmartIdAuthClient) PollForSessionResult(sessionID string, options *Poll
 				return nil, NewSmartIdSessionFailedError(string(endResult))
 			}
 		}
-
-		time.Sleep(pollInterval)
 	}
 
 	return nil, NewSmartIdTimeoutError()
